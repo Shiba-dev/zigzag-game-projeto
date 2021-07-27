@@ -22,6 +22,11 @@ public class BallController : MonoBehaviour
         {
             ChangeMovement();
         }
+
+        if(!Physics.Raycast(transform.position, Vector3.down, 2))
+        {
+            Debug.Log("Game Over");
+        }
     }
 
     void ChangeMovement()
