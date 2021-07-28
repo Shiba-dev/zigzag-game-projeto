@@ -26,13 +26,16 @@ public class CameraController : MonoBehaviour
 
     private void LateUpdate()
     {
-        SmoothFunction();
+        if (!BallController._isGameOver)
+        {
+            SmoothFunction();
+        }
     }
 
     void SmoothFunction()
     {
         _targetPos = _targetTransform.position - _dif;
-        _camPos = Vector3.Lerp(transform.position, _targetPos, _smooth * Time.deltaTime);
+        _camPos = Vector3.Lerp(transform.position, _targetPos, _smooth);
         transform.position = _camPos;
     }
 }

@@ -8,6 +8,9 @@ public class BallController : MonoBehaviour
     private float vel = 0.2f;
     [SerializeField]
     private Rigidbody rb;
+    [SerializeField]
+    public static bool _isGameOver = false;
+    private bool _exitCollision = false;
 
     void Awake()
     {
@@ -18,14 +21,15 @@ public class BallController : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Space) && !_isGameOver)
         {
             ChangeMovement();
         }
 
-        if(!Physics.Raycast(transform.position, Vector3.down, 2))
+        if(!Physics.Raycast(transform.position, Vector3.down, 2) && _exitCollision)
         {
             Debug.Log("Game Over");
+            _isGameOver = true;
         }
     }
 
@@ -39,5 +43,17 @@ public class BallController : MonoBehaviour
         {
             rb.velocity = new Vector3(vel, 0, 0);
         }
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        rb.useGravity = false;
+        _exitCollision = false;
+    }
+
+    private void OnCollisionExit(Collision collision)
+    {
+        rb.useGravity = true;
+        _exitCollision = true;
     }
 }
